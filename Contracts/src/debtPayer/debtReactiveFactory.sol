@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import './DebtReactive.sol';
+import './debtReactive.sol';
 
 contract DebtReactiveFactory {
     address private owner;

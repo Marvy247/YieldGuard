@@ -1,21 +1,208 @@
 # Reactivate
+Production-grade Reactive Network solutions for autonomous blockchain operations
+
+---
+
+## 🚀 Projects
+
+### 1. **Reactivate** - Contract Funding Automation
 One stop solution to keep your reactive and callback contracts always active
 
----  
+**Live Link**: https://reactivat.app  
+**Demo**: https://www.loom.com/share/7d530114a9b24a59bbbbd48a1251e602
 
-## Live Link - https://reactivat.app
-## Demo - https://www.loom.com/share/7d530114a9b24a59bbbbd48a1251e602?sid=0e3139a0-ae2c-4bf9-a716-a520cac537b0
+### 2. **Cross-Chain Price Feed Oracle** 🆕
+Autonomous Chainlink oracle relay for Reactive Bounties 2.0
+
+**Status**: Bounty #1 Submission  
+**Documentation**: [Oracle README](./Contracts/src/oracle/README.md)
+
+---
 
 ## Table of Contents  
 
 1. [Overview](#overview)  
-2. [Problem Statement](#problem-statement)  
-3. [Solution](#solution)  
-4. [How It Works](#how-it-works)  
-5. [Technologies Used](#technologies-used)  
-6. [Setup and Deployment](#setup-and-deployment)  
-7. [Future Improvements](#future-improvements)  
-8. [Acknowledgments](#acknowledgments)  
+2. [Cross-Chain Oracle](#cross-chain-oracle-bounty-1)
+3. [Reactivate Platform](#reactivate-platform)
+4. [Problem Statement](#problem-statement)  
+5. [Solution](#solution)  
+6. [How It Works](#how-it-works)  
+7. [Technologies Used](#technologies-used)  
+8. [Setup and Deployment](#setup-and-deployment)  
+9. [Future Improvements](#future-improvements)  
+10. [Acknowledgments](#acknowledgments)
+
+---
+
+## Cross-Chain Oracle (Bounty #1)
+
+### Architecture Overview
+
+```mermaid
+graph TB
+    subgraph "Origin Chain (Ethereum Sepolia)"
+        A[Chainlink ETH/USD Feed]
+        A -->|AnswerUpdated Event| B[Event Emission]
+    end
+    
+    subgraph "Reactive Network"
+        C[OracleReactive Contract]
+        D[Event Subscription]
+        E[Cron Subscription]
+        F[Deviation Check]
+        G[EIP-712 Signing]
+        
+        D -->|Monitors| C
+        E -->|Fallback Every 5min| C
+        C --> F
+        F -->|>0.5% Change| G
+        G -->|Callback Trigger| H[Cross-Chain Message]
+    end
+    
+    subgraph "Destination Chain (Base Sepolia)"
+        I[OracleCallback Contract]
+        J[Signature Verification]
+        K[FeedProxy Contract]
+        L[Circuit Breaker]
+        M[Your dApp]
+        
+        I --> J
+        J -->|Verified| K
+        K --> L
+        L -->|latestRoundData| M
+    end
+    
+    B -.->|Subscribe| D
+    H -->|Trigger| I
+    
+    style A fill:#ff9900
+    style C fill:#00ff00
+    style K fill:#8b5cf6
+    style M fill:#3b82f6
+```
+
+### Data Flow Sequence
+
+```mermaid
+sequenceDiagram
+    participant Origin as Chainlink Feed<br/>(Sepolia)
+    participant Reactive as OracleReactive<br/>(Reactive Network)
+    participant Callback as OracleCallback<br/>(Destination)
+    participant Proxy as FeedProxy<br/>(Destination)
+    participant dApp as Your dApp<br/>(Destination)
+    
+    Origin->>Origin: Price Update ($2000 → $2050)
+    Origin->>Origin: Emit AnswerUpdated(2050, roundId, timestamp)
+    
+    Note over Reactive: Subscribed to events
+    Origin-->>Reactive: Event detected
+    
+    Reactive->>Reactive: Calculate deviation: 2.5%
+    Reactive->>Reactive: Check threshold: 2.5% > 0.5% ✓
+    Reactive->>Reactive: Generate EIP-712 signature
+    Reactive->>Reactive: Emit Callback event
+    
+    Note over Callback: System contract triggers
+    Reactive-->>Callback: updatePrice(roundId, answer, signature)
+    
+    Callback->>Callback: Verify EIP-712 signature ✓
+    Callback->>Proxy: updateRoundData(...)
+    
+    Proxy->>Proxy: Validate staleness ✓
+    Proxy->>Proxy: Check round monotonicity ✓
+    Proxy->>Proxy: Circuit breaker: 2.5% < 20% ✓
+    Proxy->>Proxy: Store new round data
+    Proxy-->>Callback: Success
+    
+    Note over dApp: Read price feed
+    dApp->>Proxy: latestRoundData()
+    Proxy-->>dApp: (roundId, $2050, timestamps...)
+    dApp->>dApp: Use price in DeFi logic
+```
+
+### Security Model
+
+```mermaid
+graph LR
+    subgraph "Attack Vectors"
+        A1[Replay Attack]
+        A2[Price Manipulation]
+        A3[Staleness Attack]
+        A4[Front-running]
+        A5[DoS Attack]
+    end
+    
+    subgraph "Mitigations"
+        M1[EIP-712 + Round ID]
+        M2[Circuit Breaker 20%]
+        M3[1 Hour Threshold]
+        M4[Autonomous No User Tx]
+        M5[Cron Fallback]
+    end
+    
+    A1 -->|Prevents| M1
+    A2 -->|Prevents| M2
+    A3 -->|Prevents| M3
+    A4 -->|Prevents| M4
+    A5 -->|Prevents| M5
+    
+    style A1 fill:#ef4444
+    style A2 fill:#ef4444
+    style A3 fill:#ef4444
+    style A4 fill:#ef4444
+    style A5 fill:#ef4444
+    style M1 fill:#10b981
+    style M2 fill:#10b981
+    style M3 fill:#10b981
+    style M4 fill:#10b981
+    style M5 fill:#10b981
+```
+
+### Why Reactive Contracts Are Essential
+
+Traditional approaches **cannot** achieve this autonomously:
+
+| Requirement | Traditional Bot | Reactive Contracts |
+|------------|----------------|-------------------|
+| **24/7 Monitoring** | ❌ Requires infrastructure | ✅ Built-in |
+| **Trustless** | ❌ Operator must be trusted | ✅ Decentralized |
+| **No Downtime** | ❌ Single point of failure | ✅ Network consensus |
+| **Cross-Chain Triggers** | ❌ Manual relay needed | ✅ Autonomous callbacks |
+| **Cost Efficiency** | ❌ Server costs + gas | ✅ Only gas |
+| **Censorship Resistance** | ❌ Can be blocked | ✅ Permissionless |
+
+**Key Insight**: Smart contracts on standard chains cannot listen to events from other chains or trigger cross-chain actions autonomously. Reactive Contracts make this oracle **fundamentally impossible to build otherwise**.
+
+### Quick Start
+
+```bash
+# Clone repository
+git clone https://github.com/YourRepo/Reactivate
+cd Reactivate/Contracts
+
+# Install dependencies
+forge install
+
+# Setup environment
+cp .env.example .env
+# Fill in your keys and RPCs
+
+# Deploy to destination chain
+forge script script/DeployOracle.s.sol:DeployOracle --rpc-url $DESTINATION_RPC --broadcast
+
+# Deploy to Reactive Network
+forge script script/DeployOracle.s.sol:DeployReactive --rpc-url $REACTIVE_RPC --broadcast
+
+# Run tests
+forge test -vv
+```
+
+**Full Documentation**: [Oracle README](./Contracts/src/oracle/README.md)  
+**Deployment Guide**: [DEPLOYMENT.md](./Contracts/src/oracle/DEPLOYMENT.md)
+
+---
+
+## Reactivate Platform  
 
 ---  
 
