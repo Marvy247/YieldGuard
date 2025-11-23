@@ -1,10 +1,10 @@
-# Reactivate
+# ReactFeed
 
 A reactive blockchain platform enabling automated cross-chain operations, smart contract automation, and oracle services using the Reactive Network.
 
 ## Overview
 
-Reactivate is a comprehensive blockchain automation platform that leverages reactive programming patterns to enable:
+ReactFeed is a comprehensive blockchain automation platform that leverages reactive programming patterns to enable:
 
 - **Automated Account Funding**: Monitor and automatically refill contract balances
 - **Debt Management**: Automatic debt payment for reactive contracts
@@ -220,7 +220,7 @@ classDiagram
 ## Project Structure
 
 ```
-Reactivate/
+ReactFeed/
 ├── app/                          # Next.js Frontend Application
 │   ├── src/
 │   │   ├── app/                  # Next.js App Router
