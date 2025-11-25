@@ -3,13 +3,13 @@
 import React, { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useAccount } from "wagmi";
-import { useConnectModal } from "@rainbow-me/rainbowkit";
+import { useAppKit } from "@reown/appkit/react";
 import Button from "./Button";
 
 const WalletConnectedButton: React.FC = () => {
   const router = useRouter();
   const { isConnected } = useAccount();
-  const { openConnectModal } = useConnectModal();
+  const { open } = useAppKit();
   const pendingNavigation = useRef(false);
 
   const handleGetStarted = () => {
@@ -19,9 +19,7 @@ const WalletConnectedButton: React.FC = () => {
     } else {
       // Wallet not connected, open connect modal and set flag for navigation
       pendingNavigation.current = true;
-      if (openConnectModal) {
-        openConnectModal();
-      }
+      open();
     }
   };
 

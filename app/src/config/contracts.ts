@@ -9,13 +9,13 @@ export const CONTRACTS = {
 export const CHAIN_IDS = {
   origin: Number(process.env.NEXT_PUBLIC_ORIGIN_CHAIN_ID) || 11155111, // Sepolia
   destination: Number(process.env.NEXT_PUBLIC_DESTINATION_CHAIN_ID) || 84532, // Base Sepolia
-  reactive: Number(process.env.NEXT_PUBLIC_REACTIVE_CHAIN_ID) || 1,
+  reactive: Number(process.env.NEXT_PUBLIC_REACTIVE_CHAIN_ID) || 5318007, // Reactive Lasna
 } as const;
 
 export const EXPLORERS = {
   sepolia: process.env.NEXT_PUBLIC_SEPOLIA_EXPLORER || 'https://sepolia.etherscan.io',
   baseSepolia: process.env.NEXT_PUBLIC_BASE_SEPOLIA_EXPLORER || 'https://sepolia.basescan.org',
-  reactive: process.env.NEXT_PUBLIC_REACTIVE_EXPLORER || 'https://explorer.rnk.dev',
+  reactive: process.env.NEXT_PUBLIC_REACTIVE_EXPLORER || 'https://kopli.reactscan.net',
 } as const;
 
 // AggregatorV3Interface ABI

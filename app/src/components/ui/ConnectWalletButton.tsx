@@ -1,28 +1,42 @@
 'use client';
 
-import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { useState, useEffect } from 'react';
+import { useAppKit } from '@reown/appkit/react';
+import { useAccount } from 'wagmi';
 import Button from './Button';
 
 export default function ConnectWalletButton() {
-  const [mounted, setMounted] = useState(false);
+  const { open } = useAppKit();
+  const { isConnected, address } = useAccount();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
+  if (isConnected && address) {
     return (
       <div className="flex items-center space-x-4">
-        <Button variant="outline" size="sm">
-          Connect Wallet
+        <Button 
+          variant="outline" 
+          size="sm"
+          onClick={() => open()}
+        >
+          {address.slice(0, 6)}...{address.slice(-4)}
         </Button>
-        <Button variant="primary" size="sm" href="/wallet">
+        <Button variant="primary" size="sm" href="/dashboard">
           Launch App
         </Button>
       </div>
     );
   }
 
-  return <ConnectButton />;
+  return (
+    <div className="flex items-center space-x-4">
+      <Button 
+        variant="outline" 
+        size="sm"
+        onClick={() => open()}
+      >
+        Connect Wallet
+      </Button>
+      <Button variant="primary" size="sm" href="/dashboard">
+        Launch App
+      </Button>
+    </div>
+  );
 }

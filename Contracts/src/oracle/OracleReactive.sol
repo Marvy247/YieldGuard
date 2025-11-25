@@ -10,7 +10,6 @@ contract OracleReactive is IReactive, AbstractPausableReactive {
     
     uint64 private constant GAS_LIMIT = 2000000;
     address private constant SYSTEM_CONTRACT = 0x0000000000000000000000000000000000fffFfF;
-    uint256 private constant REACTIVE_CHAIN_ID = 0x0000000000000000000000000000000000000000000000000000000000000000;
     
     // EIP-712 Domain
     bytes32 private immutable DOMAIN_SEPARATOR;
@@ -78,26 +77,33 @@ contract OracleReactive is IReactive, AbstractPausableReactive {
             )
         );
         
-        if (!vm) {
-            // Subscribe to AnswerUpdated events from origin feed
-            service.subscribe(
-                ORIGIN_CHAIN_ID,
-                ORIGIN_FEED,
-                ANSWER_UPDATED_TOPIC,
-                REACTIVE_IGNORE,
-                REACTIVE_IGNORE,
-                REACTIVE_IGNORE
-            );
-            
-            // Subscribe to Cron events for periodic polling
-            service.subscribe(
-                REACTIVE_CHAIN_ID,
-                address(0),
-                CRON_TOPIC,
-                REACTIVE_IGNORE,
-                REACTIVE_IGNORE,
-                REACTIVE_IGNORE
-            );
+        // Subscribe to AnswerUpdated events from origin feed using .call() for graceful failure
+        bytes memory payload1 = abi.encodeWithSignature(
+            "subscribe(uint256,address,uint256,uint256,uint256,uint256)",
+            ORIGIN_CHAIN_ID,
+            ORIGIN_FEED,
+            ANSWER_UPDATED_TOPIC,
+            REACTIVE_IGNORE,
+            REACTIVE_IGNORE,
+            REACTIVE_IGNORE
+        );
+        (bool subscription_result1,) = address(service).call(payload1);
+        
+        // Subscribe to Cron events for periodic polling (optional)
+        bytes memory payload2 = abi.encodeWithSignature(
+            "subscribe(uint256,address,uint256,uint256,uint256,uint256)",
+            block.chainid,
+            address(0),
+            CRON_TOPIC,
+            REACTIVE_IGNORE,
+            REACTIVE_IGNORE,
+            REACTIVE_IGNORE
+        );
+        (bool subscription_result2,) = address(service).call(payload2);
+        
+        // Set vm flag if both subscriptions failed
+        if (!subscription_result1 && !subscription_result2) {
+            vm = true;
         }
     }
     
@@ -112,7 +118,7 @@ contract OracleReactive is IReactive, AbstractPausableReactive {
             REACTIVE_IGNORE
         );
         result[1] = Subscription(
-            REACTIVE_CHAIN_ID,
+            block.chainid,
             address(0),
             CRON_TOPIC,
             REACTIVE_IGNORE,

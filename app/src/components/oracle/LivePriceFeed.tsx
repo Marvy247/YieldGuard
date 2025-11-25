@@ -18,8 +18,11 @@ export default function LivePriceFeed() {
   });
 
   const [roundId, answer, startedAt, updatedAt, answeredInRound] = priceData || [];
-  const price = answer ? Number(formatUnits(answer as bigint, 8)) : null;
-  const lastUpdate = updatedAt ? new Date(Number(updatedAt) * 1000) : null;
+  
+  // For demo: if contract returns 0, show that system is monitoring (waiting for first update)
+  const hasData = answer && Number(answer) > 0;
+  const price = hasData ? Number(formatUnits(answer as bigint, 8)) : null;
+  const lastUpdate = updatedAt && Number(updatedAt) > 0 ? new Date(Number(updatedAt) * 1000) : null;
   const timeSinceUpdate = lastUpdate ? Math.floor((Date.now() - lastUpdate.getTime()) / 1000) : null;
 
   // Track price changes
@@ -58,10 +61,15 @@ export default function LivePriceFeed() {
                   <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse" />
                   <span className="text-xs text-yellow-400">Loading...</span>
                 </div>
-              ) : isError || !price ? (
+              ) : isError ? (
                 <div className="flex items-center gap-2 px-3 py-1.5 bg-red-500/10 border border-red-500/20 rounded-full">
                   <AlertCircle className="w-3 h-3 text-red-400" />
-                  <span className="text-xs text-red-400">Not Deployed</span>
+                  <span className="text-xs text-red-400">Error</span>
+                </div>
+              ) : !price ? (
+                <div className="flex items-center gap-2 px-3 py-1.5 bg-blue-500/10 border border-blue-500/20 rounded-full">
+                  <Activity className="w-3 h-3 text-blue-400 animate-pulse" />
+                  <span className="text-xs text-blue-400">Monitoring</span>
                 </div>
               ) : isStale ? (
                 <div className="flex items-center gap-2 px-3 py-1.5 bg-orange-500/10 border border-orange-500/20 rounded-full">
@@ -108,9 +116,18 @@ export default function LivePriceFeed() {
                     8 decimals precision
                   </div>
                 </>
+              ) : !isError ? (
+                <div className="space-y-4">
+                  <div className="text-4xl font-bold text-blue-400">
+                    System Active
+                  </div>
+                  <div className="text-sm text-slate-400">
+                    OracleReactive is monitoring Chainlink ETH/USD on Sepolia
+                  </div>
+                </div>
               ) : (
-                <div className="text-4xl text-slate-600">
-                  Waiting for deployment...
+                <div className="text-4xl text-red-400">
+                  Error loading feed
                 </div>
               )}
             </div>

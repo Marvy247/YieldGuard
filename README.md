@@ -2,6 +2,34 @@
 
 A reactive blockchain platform enabling automated cross-chain operations, smart contract automation, and oracle services using the Reactive Network.
 
+## 🚀 Deployed Contracts
+
+All contracts are deployed and operational on testnets:
+
+### Ethereum Sepolia (Chain ID: 11155111)
+| Contract | Address | Block Explorer |
+|----------|---------|----------------|
+| **AccountFactory** | `0xe54a966ba44017c9431C3008f8592186A2aF0D36` | [View on Etherscan](https://sepolia.etherscan.io/address/0xe54a966ba44017c9431C3008f8592186A2aF0D36) |
+| **FunderFactory** | `0x51F3c2Eb22BD3aaBcF5159dCDc8a1C3C7DDACaB7` | [View on Etherscan](https://sepolia.etherscan.io/address/0x51F3c2Eb22BD3aaBcF5159dCDc8a1C3C7DDACaB7) |
+| **DebtPayerFactory** | `0x94cE3e8BA73477f6A3Ff3cd1B211B81c9c095125` | [View on Etherscan](https://sepolia.etherscan.io/address/0x94cE3e8BA73477f6A3Ff3cd1B211B81c9c095125) |
+
+### Base Sepolia (Chain ID: 84532)
+| Contract | Address | Block Explorer |
+|----------|---------|----------------|
+| **FeedProxy** | `0x324c2dEE3AA3B38a3Fc79313f0b0315582277204` | [View on BaseScan](https://sepolia.basescan.org/address/0x324c2dEE3AA3B38a3Fc79313f0b0315582277204) |
+| **OracleCallback** | `0xbCce91031005f78ad7De9A9B837fbaae9234C641` | [View on BaseScan](https://sepolia.basescan.org/address/0xbCce91031005f78ad7De9A9B837fbaae9234C641) |
+
+### Reactive Lasna (Chain ID: 5318007)
+| Contract | Address | Block Explorer |
+|----------|---------|----------------|
+| **ReactiveFactory** | `0x6805D21E2cB99e4DfEd8D79fa04CfeE09c8DBC08` | [View on ReactScan](https://kopli.reactscan.net/address/0x6805D21E2cB99e4DfEd8D79fa04CfeE09c8DBC08) |
+| **DebtReactiveFactory** | `0xe54a966ba44017c9431C3008f8592186A2aF0D36` | [View on ReactScan](https://kopli.reactscan.net/address/0xe54a966ba44017c9431C3008f8592186A2aF0D36) |
+| **OracleReactive** | `0x51F3c2Eb22BD3aaBcF5159dCDc8a1C3C7DDACaB7` | [View on ReactScan](https://kopli.reactscan.net/address/0x51F3c2Eb22BD3aaBcF5159dCDc8a1C3C7DDACaB7) |
+
+**Total**: 8 contracts deployed across 3 networks • [Full Deployment Details](./FINAL_DEPLOYMENT_SUMMARY.md)
+
+---
+
 ## Overview
 
 ReactFeed is a comprehensive blockchain automation platform that leverages reactive programming patterns to enable:
