@@ -15,7 +15,7 @@ export const CHAIN_IDS = {
 export const EXPLORERS = {
   sepolia: process.env.NEXT_PUBLIC_SEPOLIA_EXPLORER || 'https://sepolia.etherscan.io',
   baseSepolia: process.env.NEXT_PUBLIC_BASE_SEPOLIA_EXPLORER || 'https://sepolia.basescan.org',
-  reactive: process.env.NEXT_PUBLIC_REACTIVE_EXPLORER || 'https://kopli.reactscan.net',
+  reactive: process.env.NEXT_PUBLIC_REACTIVE_EXPLORER || 'https://lasna.reactscan.net/',
 } as const;
 
 // AggregatorV3Interface ABI

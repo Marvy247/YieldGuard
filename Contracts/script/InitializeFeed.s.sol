@@ -22,9 +22,9 @@ contract InitializeFeed is Script {
         console.log("Temporarily updating callback proxy for demo...");
         feedProxy.updateCallbackProxy(vm.addr(deployerPrivateKey));
         
-        // Push current Chainlink price (ETH/USD ~$2906)
-        uint80 roundId = 1;
-        int256 answer = 290614792400; // $2906.14 with 8 decimals
+        // Push current Chainlink price (ETH/USD ~$3012)
+        uint80 roundId = 2;
+        int256 answer = 301256710100; // $3012.57 with 8 decimals
         uint256 timestamp = block.timestamp;
         
         console.log("Pushing initial price data...");
@@ -44,7 +44,7 @@ contract InitializeFeed is Script {
         vm.stopBroadcast();
         
         console.log("\n=== Demo Initialization Complete ===");
-        console.log("FeedProxy now showing: $2906.14");
+        console.log("FeedProxy now showing: $3012.57");
         console.log("Refresh your frontend to see the price!");
     }
 }

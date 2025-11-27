@@ -18,9 +18,7 @@ export default function ConnectWalletButton() {
         >
           {address.slice(0, 6)}...{address.slice(-4)}
         </Button>
-        <Button variant="primary" size="sm" href="/dashboard">
-          Launch App
-        </Button>
+
       </div>
     );
   }
@@ -34,9 +32,7 @@ export default function ConnectWalletButton() {
       >
         Connect Wallet
       </Button>
-      <Button variant="primary" size="sm" href="/dashboard">
-        Launch App
-      </Button>
+
     </div>
   );
 }

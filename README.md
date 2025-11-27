@@ -22,9 +22,9 @@ All contracts are deployed and operational on testnets:
 ### Reactive Lasna (Chain ID: 5318007)
 | Contract | Address | Block Explorer |
 |----------|---------|----------------|
-| **ReactiveFactory** | `0x6805D21E2cB99e4DfEd8D79fa04CfeE09c8DBC08` | [View on ReactScan](https://kopli.reactscan.net/address/0x6805D21E2cB99e4DfEd8D79fa04CfeE09c8DBC08) |
-| **DebtReactiveFactory** | `0xe54a966ba44017c9431C3008f8592186A2aF0D36` | [View on ReactScan](https://kopli.reactscan.net/address/0xe54a966ba44017c9431C3008f8592186A2aF0D36) |
-| **OracleReactive** | `0x51F3c2Eb22BD3aaBcF5159dCDc8a1C3C7DDACaB7` | [View on ReactScan](https://kopli.reactscan.net/address/0x51F3c2Eb22BD3aaBcF5159dCDc8a1C3C7DDACaB7) |
+| **ReactiveFactory** | `0x6805D21E2cB99e4DfEd8D79fa04CfeE09c8DBC08` | [View on ReactScan](https://lasna.reactscan.net/address/0x6805D21E2cB99e4DfEd8D79fa04CfeE09c8DBC08) |
+| **DebtReactiveFactory** | `0xe54a966ba44017c9431C3008f8592186A2aF0D36` | [View on ReactScan](https://lasna.reactscan.net/address/0xe54a966ba44017c9431C3008f8592186A2aF0D36) |
+| **OracleReactive** | `0x51F3c2Eb22BD3aaBcF5159dCDc8a1C3C7DDACaB7` | [View on ReactScan](https://lasna.reactscan.net/address/0x51F3c2Eb22BD3aaBcF5159dCDc8a1C3C7DDACaB7) |
 
 **Total**: 8 contracts deployed across 3 networks • [Full Deployment Details](./FINAL_DEPLOYMENT_SUMMARY.md)
 
