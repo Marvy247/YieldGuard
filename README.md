@@ -2,7 +2,7 @@
 
 A reactive blockchain platform enabling automated cross-chain operations, smart contract automation, and oracle services using the Reactive Network.
 
-## 🚀 Deployed Contracts
+##  Deployed Contracts
 
 All contracts are deployed and operational on testnets:
 
