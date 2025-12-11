@@ -211,8 +211,7 @@ LoopGuard doesn't just win this bounty, it **defines what DeFi automation should
 
 **Verification**: View on [Sepolia Etherscan](https://sepolia.etherscan.io/address/0x05e2C54D348d9F0d8C40dF90cf15BFE8717Ee03f)
 
-**Frontend**: Can be deployed to Vercel/Netlify  
-**Repository**: [GitHub Link - Insert your repo URL]
+**Repository**: https://github.com/Marvy247/LoopGuard.git
 
 ---
 
@@ -341,7 +340,7 @@ Every DeFi user understands liquidation fear. Every judge will immediately grasp
 **Links**:
 - Etherscan: https://sepolia.etherscan.io/address/0x05e2C54D348d9F0d8C40dF90cf15BFE8717Ee03f
 - Deployment Tx: https://sepolia.etherscan.io/tx/0x47bcca8bf9dc2ee7580a628a46047d3aa38880962732bc52cee1c054145fe740
-- Repository: [Insert your GitHub/GitLab URL]
+- Repository:https://github.com/Marvy247/LoopGuard.git
 
 ---
 
