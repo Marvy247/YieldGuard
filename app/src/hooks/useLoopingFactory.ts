@@ -1,9 +1,10 @@
 import { useReadContract, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
 import { LOOPING_ADDRESSES } from '../config/looping';
 import { LOOPING_FACTORY_ABI } from '../config/loopingABI';
-import { parseEther } from 'viem';
+import { parseEther, decodeEventLog } from 'viem';
+import { useEffect, useState } from 'react';
 
-export function useLoopingFactory(chainId: number = 11155111) {
+export function useLoopingFactory(chainId: number = 84532) { // Base Sepolia
   const factoryAddress = LOOPING_ADDRESSES[chainId as keyof typeof LOOPING_ADDRESSES]?.factory;
 
   // Read user positions
@@ -65,11 +66,64 @@ export function useLoopingFactory(chainId: number = 11155111) {
   } = useWriteContract();
 
   const { 
+    data: receipt,
     isLoading: isConfirming,
     isSuccess: isConfirmed,
   } = useWaitForTransactionReceipt({
     hash: createTxHash,
   });
+
+  // State to store created positions
+  const [createdPositions, setCreatedPositions] = useState<Array<{
+    callback: string;
+    reactive: string;
+    owner: string;
+    collateralAsset: string;
+    borrowAsset: string;
+  }>>([]);
+
+  // Parse PositionCreated events from transaction receipt
+  useEffect(() => {
+    if (receipt && receipt.logs) {
+      const positions: typeof createdPositions = [];
+      
+      for (const log of receipt.logs) {
+        try {
+          const decoded = decodeEventLog({
+            abi: LOOPING_FACTORY_ABI,
+            data: log.data,
+            topics: log.topics,
+          });
+
+          if (decoded.eventName === 'PositionCreated') {
+            const args = decoded.args as {
+              owner: string;
+              callbackContract: string;
+              reactiveContract: string;
+              collateralAsset: string;
+              borrowAsset: string;
+            };
+            
+            positions.push({
+              callback: args.callbackContract,
+              reactive: args.reactiveContract,
+              owner: args.owner,
+              collateralAsset: args.collateralAsset,
+              borrowAsset: args.borrowAsset,
+            });
+          }
+        } catch (error) {
+          // Skip logs that don't match
+          console.log('Skipping log:', error);
+        }
+      }
+      
+      if (positions.length > 0) {
+        console.log('Found created positions:', positions);
+        setCreatedPositions(positions);
+      }
+    }
+  }, [receipt]);
 
   const handleCreatePosition = async (
     collateralAsset: string,
@@ -104,5 +158,6 @@ export function useLoopingFactory(chainId: number = 11155111) {
     isConfirming,
     isConfirmed,
     createError,
+    createdPositions,
   };
 }

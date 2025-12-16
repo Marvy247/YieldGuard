@@ -127,7 +127,7 @@ function PositionsView({ address }: { address: string }) {
           ↻ Try Again
         </button>
         <div className="mt-6 text-xs text-gray-600">
-          <p>Factory: {LOOPING_ADDRESSES[11155111]?.factory}</p>
+          <p>Factory: {LOOPING_ADDRESSES[84532]?.factory}</p>
           <p>User: {address?.slice(0, 10)}...{address?.slice(-8)}</p>
         </div>
       </div>
@@ -229,10 +229,12 @@ function CreatePositionView({ address }: { address: string }) {
   const [targetLTV, setTargetLTV] = useState(70);
   const [maxSlippage, setMaxSlippage] = useState(3);
   const [fundingAmount, setFundingAmount] = useState('0.1');
+  const [createdCallbackAddress, setCreatedCallbackAddress] = useState<string | null>(null);
+  const [showExecuteModal, setShowExecuteModal] = useState(false);
   
-  const { createPosition, isCreating, isConfirming, isConfirmed, createError } = useLoopingFactory();
+  const { createPosition, isCreating, isConfirming, isConfirmed, createError, createdPositions } = useLoopingFactory();
   
-  const assets = SUPPORTED_ASSETS[11155111];
+  const assets = SUPPORTED_ASSETS[84532]; // Base Sepolia
 
   const handleCreate = async () => {
     try {
@@ -244,7 +246,7 @@ function CreatePositionView({ address }: { address: string }) {
         return;
       }
 
-      await createPosition(
+      const result = await createPosition(
         collateralAddr,
         borrowAddr,
         targetLTV,
@@ -252,13 +254,9 @@ function CreatePositionView({ address }: { address: string }) {
         fundingAmount
       );
       
-      console.log('Position creation transaction submitted');
+      console.log('Position creation result:', result);
       
-      // Success - switch to positions tab after a delay to allow blockchain update
-      console.log('Position created successfully, will refresh in 3 seconds...');
-      setTimeout(() => {
-        window.location.reload();
-      }, 3000);
+      // Don't auto-reload, show next steps instead
     } catch (error) {
       console.error('Failed to create position:', error);
     }
@@ -401,13 +399,51 @@ function CreatePositionView({ address }: { address: string }) {
           </div>
         )}
 
-        {/* Success Message */}
-        {isConfirmed && (
-          <div className="mt-4 border border-white/20 rounded-xl p-4 bg-white/[0.05]">
-            <p className="text-white font-bold">✅ Position Created Successfully!</p>
-            <p className="text-sm text-gray-400 mt-1">
-              Your position is now protected by the Reactive Guardian. Refreshing in 2 seconds...
-            </p>
+        {/* Success Message with Next Steps */}
+        {isConfirmed && createdPositions && createdPositions.length > 0 && (
+          <div className="mt-4 border border-green-500/30 rounded-xl p-6 bg-green-900/10">
+            <p className="text-white font-bold text-lg mb-4">✅ Position Created Successfully!</p>
+            
+            <div className="bg-black/30 rounded-lg p-4 mb-4 font-mono text-sm">
+              <p className="text-gray-400 mb-1">Callback Contract:</p>
+              <p className="text-white break-all">{createdPositions[0].callback}</p>
+              <p className="text-gray-400 mt-3 mb-1">Reactive Contract:</p>
+              <p className="text-white break-all">{createdPositions[0].reactive}</p>
+            </div>
+
+            <div className="space-y-3 mb-4">
+              <div className="flex items-start gap-3 bg-white/5 p-3 rounded-lg">
+                <span className="text-2xl">1️⃣</span>
+                <div>
+                  <p className="font-bold text-white">Approve Tokens</p>
+                  <p className="text-sm text-gray-400">Allow your position contract to use your {collateralAsset}</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 bg-white/5 p-3 rounded-lg">
+                <span className="text-2xl">2️⃣</span>
+                <div>
+                  <p className="font-bold text-white">Execute Leverage</p>
+                  <p className="text-sm text-gray-400">Start the leverage loop with your desired amount</p>
+                </div>
+              </div>
+            </div>
+
+            <button
+              onClick={() => {
+                setCreatedCallbackAddress(createdPositions[0].callback);
+                setShowExecuteModal(true);
+              }}
+              className="w-full bg-white text-black hover:bg-gray-200 font-bold py-3 rounded-full transition"
+            >
+              🚀 Approve & Execute Leverage
+            </button>
+
+            <button
+              onClick={() => window.location.reload()}
+              className="w-full mt-3 border border-white/20 text-white hover:bg-white/5 font-bold py-3 rounded-full transition"
+            >
+              ↻ Refresh Dashboard
+            </button>
           </div>
         )}
 
@@ -428,6 +464,21 @@ function CreatePositionView({ address }: { address: string }) {
           </div>
         )}
       </div>
+
+      {/* Execute Leverage Modal */}
+      {showExecuteModal && createdCallbackAddress && (
+        <ExecuteLeverageModal
+          callbackAddress={createdCallbackAddress}
+          collateralAsset={assets[collateralAsset as keyof typeof assets]?.address || '0x4200000000000000000000000000000000000006'}
+          onClose={() => {
+            setShowExecuteModal(false);
+            setCreatedCallbackAddress(null);
+          }}
+          onSuccess={() => {
+            window.location.reload();
+          }}
+        />
+      )}
     </div>
   );
 }

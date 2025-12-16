@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useLoopingCallback } from '@/hooks/useLoopingCallback';
+import { SUPPORTED_ASSETS } from '@/config/looping';
 
 interface ExecuteLeverageModalProps {
   callbackAddress: string;
@@ -19,6 +20,17 @@ export function ExecuteLeverageModal({
   const [amount, setAmount] = useState('');
   const [step, setStep] = useState<'approve' | 'execute'>('approve');
   
+  // Get asset info
+  const assetInfo = useMemo(() => {
+    const assets = SUPPORTED_ASSETS[84532];
+    for (const [key, value] of Object.entries(assets)) {
+      if (value.address.toLowerCase() === collateralAsset.toLowerCase()) {
+        return value;
+      }
+    }
+    return { symbol: 'Token', decimals: 18, icon: '🪙' };
+  }, [collateralAsset]);
+  
   const {
     approveToken,
     isApproving,
@@ -32,7 +44,7 @@ export function ExecuteLeverageModal({
 
   const handleApprove = async () => {
     try {
-      await approveToken(collateralAsset, amount);
+      await approveToken(collateralAsset, amount, assetInfo.decimals);
       // Move to execute step after confirmation
       setTimeout(() => setStep('execute'), 2000);
     } catch (error) {
@@ -42,7 +54,7 @@ export function ExecuteLeverageModal({
 
   const handleExecute = async () => {
     try {
-      await executeLeverage(amount);
+      await executeLeverage(amount, assetInfo.decimals);
       // Wait for confirmation then call success
       setTimeout(() => {
         onSuccess();
@@ -72,7 +84,7 @@ export function ExecuteLeverageModal({
         {/* Amount Input */}
         <div className="mb-6">
           <label className="block text-sm font-bold mb-2">
-            Amount ({collateralAsset === '0xC558DBdd856501FCd9aaF1E62eae57A9F0629a3c' ? 'WETH' : 'Token'})
+            Amount ({assetInfo.icon} {assetInfo.symbol})
           </label>
           <input
             type="number"

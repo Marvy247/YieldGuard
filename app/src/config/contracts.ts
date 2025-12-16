@@ -7,7 +7,7 @@ export const CONTRACTS = {
 } as const;
 
 export const CHAIN_IDS = {
-  origin: Number(process.env.NEXT_PUBLIC_ORIGIN_CHAIN_ID) || 11155111, // Sepolia
+  origin: Number(process.env.NEXT_PUBLIC_ORIGIN_CHAIN_ID) || 84532, // Base Sepolia
   destination: Number(process.env.NEXT_PUBLIC_DESTINATION_CHAIN_ID) || 84532, // Base Sepolia
   reactive: Number(process.env.NEXT_PUBLIC_REACTIVE_CHAIN_ID) || 5318007, // Reactive Lasna
 } as const;

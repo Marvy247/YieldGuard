@@ -1,37 +1,38 @@
 // Looping Protocol Configuration
-// Deployed: December 10, 2024
-// Network: Ethereum Sepolia Testnet
-// Tx: 0x47bcca8bf9dc2ee7580a628a46047d3aa38880962732bc52cee1c054145fe740
+// Deployed: December 12, 2024
+// Network: Base Sepolia (L2 Testnet)
+// Factory: 0x67442eB9835688E59f886a884f4E915De5ce93E8
+// Why Base Sepolia: 99% cheaper gas fees than Ethereum Sepolia
 
 export const LOOPING_ADDRESSES = {
-  // Sepolia Testnet
-  11155111: {
-    factory: '0x05e2C54D348d9F0d8C40dF90cf15BFE8717Ee03f' as `0x${string}`, // ✅ DEPLOYED
-    flashHelper: '0x90FCe00Bed1547f8ED43441D1E5C9cAEE47f4811' as `0x${string}`, // ✅ DEPLOYED
-    aavePool: '0x6Ae43d3271ff6888e7Fc43Fd7321a503ff738951' as `0x${string}`,
-    uniswapRouter: '0xE592427A0AEce92De3Edee1F18E0157C05861564' as `0x${string}`,
+  // Base Sepolia Testnet (L2) - 99% cheaper gas!
+  84532: {
+    factory: '0x67442eB9835688E59f886a884f4E915De5ce93E8' as `0x${string}`, // ✅ DEPLOYED
+    flashHelper: '0xc898e8fc8D051cFA2B756438F751086451de1688' as `0x${string}`, // ✅ DEPLOYED
+    aavePool: '0x8bAB6d1b75f19e9eD9fCe8b9BD338844fF79aE27' as `0x${string}`,
+    uniswapRouter: '0x3fC91A3afd70395Cd496C647d5a6CC9D4B2b7FAD' as `0x${string}`,
   },
 } as const;
 
 export const SUPPORTED_ASSETS = {
-  11155111: {
+  84532: {
     WETH: {
-      address: '0xC558DBdd856501FCd9aaF1E62eae57A9F0629a3c' as `0x${string}`,
+      address: '0x4200000000000000000000000000000000000006' as `0x${string}`,
       symbol: 'WETH',
       decimals: 18,
       icon: '⟠',
     },
     USDC: {
-      address: '0x94a9D9AC8a22534E3FaCa9F4e7F2E2cf85d5E4C8' as `0x${string}`,
+      address: '0xba50Cd2A20f6DA35D788639E581bca8d0B5d4D5f' as `0x${string}`,
       symbol: 'USDC',
       decimals: 6,
       icon: '💵',
     },
-    DAI: {
-      address: '0xFF34B3d4Aee8ddCd6F9AFFFB6Fe49bD371b8a357' as `0x${string}`,
-      symbol: 'DAI',
-      decimals: 18,
-      icon: '◈',
+    USDT: {
+      address: '0x0a215D8ba66387DCA84B284D18c3B4ec3de6E54a' as `0x${string}`,
+      symbol: 'USDT',
+      decimals: 6,
+      icon: '💚',
     },
   },
 } as const;

@@ -18,7 +18,7 @@ export function PositionsList({ userAddress }: { userAddress: string }) {
       try {
         setLoading(true);
         console.log('=== Fetching positions for:', userAddress);
-        console.log('=== Factory address:', LOOPING_ADDRESSES[11155111].factory);
+        console.log('=== Factory address:', LOOPING_ADDRESSES[84532].factory);
         
         // Skip getUserPositions, go straight to events (more reliable)
         console.log('=== Fetching PositionCreated events from blockchain...');
@@ -28,17 +28,17 @@ export function PositionsList({ userAddress }: { userAddress: string }) {
         const chainId = await publicClient.getChainId();
         console.log('=== Current block number:', currentBlock);
         console.log('=== Connected to chainId:', chainId);
-        console.log('=== Expected chainId: 11155111 (Ethereum Sepolia)');
+        console.log('=== Expected chainId: 84532 (Base Sepolia)');
         
         // Check if wrong network
-        if (chainId !== 11155111) {
-          console.error('=== ❌ WRONG NETWORK! Connected to chainId', chainId, 'but contracts are on Ethereum Sepolia (11155111)');
+        if (chainId !== 84532) {
+          console.error('=== ❌ WRONG NETWORK! Connected to chainId', chainId, 'but contracts are on Base Sepolia (84532)');
           setWrongNetwork(true);
           setLoading(false);
           return;
         }
         
-        console.log('=== ✅ Correct network (Ethereum Sepolia)');
+        console.log('=== ✅ Correct network (Base Sepolia)');
         
         // Search in smaller chunks (last 1000 blocks only - much faster)
         const fromBlock = currentBlock > BigInt(1000) ? currentBlock - BigInt(1000) : BigInt(0);
@@ -51,7 +51,7 @@ export function PositionsList({ userAddress }: { userAddress: string }) {
         try {
           // Try with timeout
           const logsPromise = publicClient.getLogs({
-            address: LOOPING_ADDRESSES[11155111].factory as `0x${string}`,
+            address: LOOPING_ADDRESSES[84532].factory as `0x${string}`,
             fromBlock: fromBlock,
             toBlock: currentBlock,
           });
@@ -120,11 +120,11 @@ export function PositionsList({ userAddress }: { userAddress: string }) {
         </p>
         <div className="bg-black/30 p-4 rounded-lg mb-4">
           <p className="text-sm text-gray-400 mb-2">Contracts are deployed on:</p>
-          <p className="text-white font-bold">Ethereum Sepolia</p>
-          <p className="text-xs text-gray-500 mt-1">ChainId: 11155111</p>
+          <p className="text-white font-bold">Base Sepolia (L2)</p>
+          <p className="text-xs text-gray-500 mt-1">ChainId: 84532</p>
         </div>
         <p className="text-sm text-gray-400 mb-4">
-          Please switch to <strong className="text-white">Ethereum Sepolia</strong> in your wallet
+          Please switch to <strong className="text-white">Base Sepolia</strong> in your wallet
         </p>
         <button
           onClick={() => window.location.reload()}
@@ -156,7 +156,7 @@ export function PositionsList({ userAddress }: { userAddress: string }) {
         </p>
         <div className="text-left max-w-md mx-auto mt-4 p-3 border border-white/5 rounded-lg bg-black/30">
           <p className="text-xs text-gray-500 mb-2">Searched:</p>
-          <p className="text-xs text-gray-600 font-mono">Factory: {LOOPING_ADDRESSES[11155111]?.factory?.slice(0, 20)}...</p>
+          <p className="text-xs text-gray-600 font-mono">Factory: {LOOPING_ADDRESSES[84532]?.factory?.slice(0, 20)}...</p>
           <p className="text-xs text-gray-600 font-mono">User: {userAddress.slice(0, 20)}...</p>
           <p className="text-xs text-gray-600 font-mono">Range: Last 1000 blocks</p>
         </div>
@@ -165,11 +165,11 @@ export function PositionsList({ userAddress }: { userAddress: string }) {
           <ol className="text-left text-xs text-gray-400 space-y-2">
             <li>1. Check if your transaction succeeded on Etherscan</li>
             <li>2. Look for "PositionCreated" event in transaction logs</li>
-            <li>3. Verify you're on Sepolia network</li>
+            <li>3. Verify you're on Base Sepolia network (Chain ID: 84532)</li>
             <li>4. Make sure you used the correct factory address</li>
           </ol>
           <a 
-            href={`https://sepolia.etherscan.io/address/${userAddress}#internaltx`}
+            href={`https://sepolia.basescan.org/address/${userAddress}`}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-4 inline-block bg-white text-black px-4 py-2 rounded-full text-xs font-bold hover:bg-gray-200 transition"

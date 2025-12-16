@@ -5,6 +5,10 @@
 
 > A self-protecting leveraged position protocol powered by Reactive Smart Contracts. Unlike traditional implementations, our system **actively monitors and protects users 24/7** through autonomous health factor monitoring and automatic deleveraging.
 
+**🎯 Deployed on Base Sepolia (L2)** - 99% cheaper gas fees than Ethereum mainnet!  
+**Factory**: `0x67442eB9835688E59f886a884f4E915De5ce93E8`  
+**Explorer**: https://sepolia.basescan.org
+
 ---
 
 ##  The Winning Edge
@@ -560,7 +564,20 @@ forge test --match-contract LoopingTest -vv
 
 ##  Deployment
 
-### Deploy to Sepolia Testnet
+### ✅ Already Deployed to Base Sepolia (L2)
+
+**Network**: Base Sepolia (Chain ID: 84532)  
+**Deployed**: December 12, 2024
+
+**Contracts**:
+- **Factory**: `0x67442eB9835688E59f886a884f4E915De5ce93E8`
+- **FlashLoanHelper**: `0xc898e8fc8D051cFA2B756438F751086451de1688`
+
+**View on BaseScan**:
+- Factory: https://sepolia.basescan.org/address/0x67442eB9835688E59f886a884f4E915De5ce93E8
+- FlashLoanHelper: https://sepolia.basescan.org/address/0xc898e8fc8D051cFA2B756438F751086451de1688
+
+### Deploy to Base Sepolia (If Needed)
 
 ```bash
 # Set environment variables
@@ -568,26 +585,77 @@ export PRIVATE_KEY=your_private_key
 
 # Deploy
 cd Contracts
-forge script script/DeployLoopingSystem.s.sol \
-    --rpc-url https://sepolia.infura.io/v3/YOUR_KEY \
-    --private-key $PRIVATE_KEY \
+forge script script/DeployBaseSepolia.s.sol \
+    --rpc-url base_sepolia \
     --broadcast \
-    --verify
+    --legacy
 
 # Output:
-#  LoopingFactory: 0x...
-#  FlashLoanHelper: 0x...
+#  LoopingFactory: 0x67442eB9835688E59f886a884f4E915De5ce93E8
+#  FlashLoanHelper: 0xc898e8fc8D051cFA2B756438F751086451de1688
 ```
 
-### Verify Contracts
+### Why Base Sepolia?
 
-```bash
-forge verify-contract \
-    FACTORY_ADDRESS \
-    src/looping/LoopingFactory.sol:LoopingFactory \
-    --chain sepolia \
-    --etherscan-api-key YOUR_API_KEY
-```
+| Benefit | Value |
+|---------|-------|
+| Gas Cost | 99% cheaper than Ethereum Sepolia |
+| Full Workflow | ~$0.10 instead of ~$10 |
+| Aave V3 | ✅ Fully deployed |
+| Reactive Network | ✅ Supported |
+| Perfect for Demo | ✅ Affordable testing |
+
+---
+
+## 🛡️ Reactive Network Deployment
+
+### ✅ LoopingReactiveSimple - The 24/7 Guardian
+
+**Network**: Reactive Lasna Testnet (Chain ID: 5318007)  
+**Deployed**: December 16, 2024
+
+**Contract Address**: `0x94cE3e8BA73477f6A3Ff3cd1B211B81c9c095125`
+
+**Transaction Hashes**:
+
+1. **Deployment Transaction**  
+   TX: `0x9d38e1ce4cdcb7c806cea768a342dc37e77bb7fa0446112dd23da50f29c5895a`  
+   Explorer: https://lasna.reactscan.net/tx/0x9d38e1ce4cdcb7c806cea768a342dc37e77bb7fa0446112dd23da50f29c5895a  
+   **Action**: Deployed LoopingReactiveSimple contract to Reactive Network
+
+2. **Subscription Activation Transaction**  
+   TX: `0x15e90673fa06ca2b0d6ed600ea62b4b732f2d5c096846291411b0ebd08f9d3d3`  
+   Explorer: https://lasna.reactscan.net/tx/0x15e90673fa06ca2b0d6ed600ea62b4b732f2d5c096846291411b0ebd08f9d3d3  
+   **Action**: Activated 3 event subscriptions (Supply, Borrow, Repay events from Aave V3 on Base Sepolia)
+
+**View Contract on ReactScan**:  
+https://lasna.reactscan.net/address/0x94cE3e8BA73477f6A3Ff3cd1B211B81c9c095125
+
+**Configuration**:
+- **Monitored Chain**: Base Sepolia (Chain ID: 84532)
+- **Monitored Contract**: Aave V3 Pool (`0x8bAB6d1b75f19e9eD9fCe8b9BD338844fF79aE27`)
+- **Warning Threshold**: Health Factor 2.0
+- **Danger Threshold**: Health Factor 1.5
+- **Safe Threshold**: Health Factor 3.0
+
+**Active Subscriptions**:
+- ✅ Aave V3 Supply events
+- ✅ Aave V3 Borrow events  
+- ✅ Aave V3 Repay events
+
+**Status**: 🟢 **ACTIVE** - Monitoring 24/7
+
+### How Reactive Transactions Work
+
+When a user interacts with Aave V3 on Base Sepolia (supply, borrow, or repay), the following happens:
+
+1. **Origin Chain Event**: Transaction emitted on Base Sepolia  
+2. **Reactive Detection**: LoopingReactiveSimple `react()` function automatically triggered on Reactive Network  
+3. **Health Check**: Contract queries health factor from Aave V3  
+4. **Protection Decision**: If HF < threshold, emits callback to origin chain  
+5. **Callback Execution**: LoopingCallback on Base Sepolia executes protection
+
+**All of this happens automatically - no user intervention required!**
 
 ---
 
