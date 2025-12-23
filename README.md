@@ -491,21 +491,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-##  Support
-
-- **Documentation**: [Full Docs](./docs/)
-- **Telegram**: [@reactivedevs](https://t.me/reactivedevs)
-- **GitHub Issues**: [Report Bug](https://github.com/...)
-- **Email**: team@yieldguard.finance
-
----
-
-##  Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=owner/repo&type=Date)](https://star-history.com/#owner/repo&Date)
-
----
-
 **YieldGuard: Set it and forget it. Your yield, automatically optimized.** 
 
 Built with ️ using Reactive Network
