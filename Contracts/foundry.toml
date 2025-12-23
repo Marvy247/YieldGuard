@@ -9,5 +9,6 @@ via_ir = true
 [rpc_endpoints]
 sepolia = "https://sepolia.infura.io/v3/${INFURA_KEY}"
 base_sepolia = "https://sepolia.base.org"
+reactive = "https://lasna-rpc.rnk.dev"
 
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options

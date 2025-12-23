@@ -1,0 +1,74 @@
+Compiling 1 files with Solc 0.8.28
+Solc 0.8.28 finished in 4.34s
+Compiler run successful!
+Script ran successfully.
+
+== Logs ==
+  ===========================================
+  Deploying ReactiveRebalancer to Reactive Lasna
+  ===========================================
+  Deployer: 0xFCA0157a303d2134854d9cF4718901B6515b0696
+  Balance: 9 REACT
+  
+  Configuration:
+  - Vault (Base Sepolia): 0x0768ae0974f29c9925E927a1f63d8C72937e3A6A
+  - Asset (USDC): 0x596CED0b7c9C4426bebcb9ce22d9A32B90a272de
+  - Strategy: 0x3073FCebD03Da0a62CA15d3727D20B11849E20d1
+  - Pool count: 3
+    Pool1: 0xEAE3663d11D3124366Bd983697d87a69f5fB520E
+    Pool2: 0xe0247506e93610f93e5283BeB0DF5c8A389cF3b3
+    Pool3: 0xFe75CD7dd712716EB1f81B3D0cBE01b783463cf9
+  - Origin Chain ID: 84532
+  ===========================================
+  
+  Deploying ReactiveRebalancer...
+  ReactiveRebalancer: 0x313929901Ba9271F71aC38B6142f39BdcCC60921
+  Funded with: 0 REACT
+  
+  Activating subscriptions...
+  Subscription activation failed: Failure
+  
+  ===========================================
+  Deployment Complete!
+  ===========================================
+  
+  Reactive Network Address:
+  - ReactiveRebalancer: 0x313929901Ba9271F71aC38B6142f39BdcCC60921
+  
+  Monitoring Configuration:
+  - Pools monitored: 3
+    Pool1 (5% APY): 0xEAE3663d11D3124366Bd983697d87a69f5fB520E
+    Pool2 (7% APY): 0xe0247506e93610f93e5283BeB0DF5c8A389cF3b3
+    Pool3 (4% APY, risky): 0xFe75CD7dd712716EB1f81B3D0cBE01b783463cf9
+  - Origin chain: Base Sepolia ( 84532 )
+  - Vault on Base Sepolia: 0x0768ae0974f29c9925E927a1f63d8C72937e3A6A
+  
+  Next Steps:
+  1. Update vault's rebalancer address on Base Sepolia:
+     cast send 0x0768ae0974f29c9925E927a1f63d8C72937e3A6A
+       'setRebalancer(address)' 0x313929901Ba9271F71aC38B6142f39BdcCC60921
+       --rpc-url base_sepolia --private-key $PRIVATE_KEY
+  
+  2. Deposit funds into vault:
+     cast send 0x596CED0b7c9C4426bebcb9ce22d9A32B90a272de
+       'approve(address,uint256)' 0x0768ae0974f29c9925E927a1f63d8C72937e3A6A 1000000000
+       --rpc-url base_sepolia --private-key $PRIVATE_KEY
+     cast send 0x0768ae0974f29c9925E927a1f63d8C72937e3A6A
+       'deposit(uint256,address)' 1000000000 0xFCA0157a303d2134854d9cF4718901B6515b0696
+       --rpc-url base_sepolia --private-key $PRIVATE_KEY
+  
+  3. Trigger rebalancing by changing pool rates:
+     cast send 0xe0247506e93610f93e5283BeB0DF5c8A389cF3b3
+       'setRates(uint256,uint256)' 900 6000
+       --rpc-url base_sepolia --private-key $PRIVATE_KEY
+  ===========================================
+
+## Setting up 1 EVM.
+  [13414] ReactiveRebalancer::activateSubscriptions()
+    ├─ [3176] 0x0000000000000000000000000000000000fffFfF::subscribe(84532 [8.453e4], 0xEAE3663d11D3124366Bd983697d87a69f5fB520E, 58031398329522556450788654170672692438439563446005319665422470445414788270458 [5.803e76], 75252825407537882320072764775003078858136410358653934749800413598252374627245 [7.525e76], 75252825407537882320072764775003078858136410358653934749800413598252374627245 [7.525e76], 75252825407537882320072764775003078858136410358653934749800413598252374627245 [7.525e76])
+    │   ├─ [0] 0x0000000000000000000000000000000000000064::fulfillBasicOrder_efficient_6GL6yc()
+    │   │   └─ ← [Stop]
+    │   └─ ← [Revert] revert: Failure
+    └─ ← [Revert] revert: Failure
+
+Error: Simulated execution failed.

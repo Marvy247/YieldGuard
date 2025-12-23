@@ -1,0 +1,76 @@
+No files changed, compilation skipped
+Script ran successfully.
+
+== Logs ==
+  ===========================================
+  Deploying YieldGuard Vault to Base Sepolia
+  ===========================================
+  Deployer: 0xFCA0157a303d2134854d9cF4718901B6515b0696
+  Balance: 0 ETH
+  
+  Network Configuration:
+  - Chain: Base Sepolia (84532)
+  - Reactive Chain ID: 10045362
+  ===========================================
+  
+  1. Deploying Mock USDC...
+     Mock USDC: 0x596CED0b7c9C4426bebcb9ce22d9A32B90a272de
+     Minted 10,000 USDC to deployer
+  
+  2. Deploying VaultFactory...
+     VaultFactory: 0x2935E677e6854a36a00e3b823b6EA3a8728F2BDA
+  
+  3. Deploying Mock Lending Pools...
+     Pool1 (Aave-like): 0xEAE3663d11D3124366Bd983697d87a69f5fB520E
+       - APY: 5%
+       - Utilization: 70%
+       - Liquidity: 100,000 USDC
+     Pool2 (Compound-like): 0xe0247506e93610f93e5283BeB0DF5c8A389cF3b3
+       - APY: 7% (BEST)
+       - Utilization: 60%
+       - Liquidity: 100,000 USDC
+     Pool3 (High-risk): 0xFe75CD7dd712716EB1f81B3D0cBE01b783463cf9
+       - APY: 4%
+       - Utilization: 85% (HIGH RISK)
+       - Liquidity: 100,000 USDC
+  
+  4. Creating YieldGuard Vault via Factory...
+     Vault: 0x0768ae0974f29c9925E927a1f63d8C72937e3A6A
+     Strategy: 0x3073FCebD03Da0a62CA15d3727D20B11849E20d1
+     Rebalancer (placeholder): 0x5D014968676F8211AD24990AFBa67D6F44d46f24
+  
+  ===========================================
+  Deployment Complete!
+  ===========================================
+  
+  Base Sepolia Addresses:
+  - Mock USDC: 0x596CED0b7c9C4426bebcb9ce22d9A32B90a272de
+  - VaultFactory: 0x2935E677e6854a36a00e3b823b6EA3a8728F2BDA
+  - Pool1 (5% APY): 0xEAE3663d11D3124366Bd983697d87a69f5fB520E
+  - Pool2 (7% APY): 0xe0247506e93610f93e5283BeB0DF5c8A389cF3b3
+  - Pool3 (4% APY, risky): 0xFe75CD7dd712716EB1f81B3D0cBE01b783463cf9
+  - Vault: 0x0768ae0974f29c9925E927a1f63d8C72937e3A6A
+  - Strategy: 0x3073FCebD03Da0a62CA15d3727D20B11849E20d1
+  
+  Pool Configurations:
+  - Pool1: 5% APY, 70% utilization (balanced)
+  - Pool2: 7% APY, 60% utilization (BEST YIELD)
+  - Pool3: 4% APY, 85% utilization (HIGH RISK)
+  
+  Next Steps:
+  1. Deploy ReactiveRebalancer to Reactive Lasna:
+     export VAULT_ADDRESS= 0x0768ae0974f29c9925E927a1f63d8C72937e3A6A
+     export USDC_ADDRESS= 0x596CED0b7c9C4426bebcb9ce22d9A32B90a272de
+     export STRATEGY_ADDRESS= 0x3073FCebD03Da0a62CA15d3727D20B11849E20d1
+     export POOL1_ADDRESS= 0xEAE3663d11D3124366Bd983697d87a69f5fB520E
+     export POOL2_ADDRESS= 0xe0247506e93610f93e5283BeB0DF5c8A389cF3b3
+     export POOL3_ADDRESS= 0xFe75CD7dd712716EB1f81B3D0cBE01b783463cf9
+     forge script script/DeployReactiveVault.s.sol --rpc-url reactive --broadcast
+  
+  2. Test the vault:
+     - Approve USDC to vault
+     - Deposit USDC to vault
+     - Change pool rates to trigger rebalance
+  ===========================================
+Error: `VaultFactory` is above the contract size limit (24989 > 24576).
+Error: IO error: not a terminal
